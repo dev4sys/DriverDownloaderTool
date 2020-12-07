@@ -1,0 +1,128 @@
+<Grid
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	>
+
+	
+	<Grid Margin="0,0,0,0">
+
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="65*"/>
+			<RowDefinition Height="Auto"/> 
+			<RowDefinition Height="35*" MinHeight="150"  />
+		</Grid.RowDefinitions>
+
+
+			<!-- SNIPPETS -->
+		<StackPanel Grid.Row="0" Margin="5,5,5,5" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  > 
+		
+		
+		
+			<StackPanel Margin="5,5,5,5" Orientation="Horizontal"   > 
+			
+			<!--
+				<StackPanel Margin="0,0,15,0" Width="250" Height="60" Background="#DEDEDE" HorizontalAlignment="Stretch"  Orientation="Horizontal">
+					<StackPanel  Background="#2196f3" Height="60" Width="60" >
+						<iconPacks:PackIconMaterial  Height="36" Width="36"  Margin="10,10,10,10"
+													Kind="PackageVariantClosed" Foreground="White"/>	
+					</StackPanel>
+					<StackPanel Width="190" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
+						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="15"    FontWeight="Bold" Foreground="#676767" FontSize="26"  ></TextBlock>
+						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="GROUPS" Foreground="#676767" FontSize="15"></TextBlock>
+					</StackPanel>
+				</StackPanel> 
+				
+				<StackPanel  Margin="0,0,15,0" Width="250" Height="60" Background="#DEDEDE" HorizontalAlignment="Stretch"  Orientation="Horizontal">
+					<StackPanel  Background="#79c879" Height="60" Width="60" >
+						<iconPacks:PackIconMaterial  Height="36" Width="36"  Margin="10,10,10,10"
+													Kind="ApplicationCog" Foreground="White"/>	
+					</StackPanel>
+					<StackPanel Width="190" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
+						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="24"    FontWeight="Bold" Foreground="#676767" FontSize="26"  ></TextBlock>
+						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="COMPUTER REGISTERED" Foreground="#676767" FontSize="15"></TextBlock>
+					</StackPanel>
+				</StackPanel>
+			-->	
+				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
+			
+					<Button Width="60" x:Name="ViewSelectedBtn" BorderThickness="0" Margin="0,0,0,0" 
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
+						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
+							Kind="FileEye" />
+					</Button>
+					
+				</StackPanel>
+				
+				
+				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+			
+					<Button Width="60" x:Name="DonwloadBtn" BorderThickness="0" Margin="0,0,0,0" 
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
+						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
+							Kind="FileDownload" />
+					</Button>
+					
+				</StackPanel>
+				
+				
+			
+			</StackPanel> 
+			
+			
+			<Grid Margin="5">
+				<ProgressBar x:Name="DonwloadProgress" Minimum="0" Maximum="100" HorizontalAlignment="Stretch" Height="10" />
+			</Grid>
+
+			<StackPanel Orientation="Horizontal" Margin="5,5,5,10">
+			
+				<Label Content="Download Folder:" Width="120" Background="#DEDEDE"/>
+				<TextBox x:Name="DownloadProjectPath" Width="300" Text="" />
+				<Button x:Name="FolderDownloadBrowseBtn" Width="50" Margin="5,0,0,0">
+					<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" 
+						Kind="FolderOpen" />
+				</Button>
+				
+			</StackPanel>
+
+			<DataGrid Name="DriversSelectedDatagrid" ItemsSource="{Binding}" Margin="5,5,5,5" 
+						HorizontalAlignment="Stretch" AutoGenerateColumns="False"							
+						ScrollViewer.CanContentScroll="True" 
+						ScrollViewer.VerticalScrollBarVisibility="Auto">
+					<DataGrid.Columns>	
+
+
+						<DataGridTextColumn Header="Group" Binding="{Binding DownloadGroup}" Width="100"/>
+						<DataGridTextColumn Header="Size" Binding="{Binding DownloadSize}" Width="70" />
+						<DataGridTextColumn Header="ID" Binding="{Binding DownloadID}" Width="70"/>
+						<DataGridTextColumn Header="URL" Binding="{Binding DownloadURL}" Width="350" />
+						
+						
+					</DataGrid.Columns>
+					
+			</DataGrid>
+		
+		</StackPanel>
+
+		<GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFBCBCBC"
+				ShowsPreview="false" ResizeDirection="Rows" Height="5"/>
+				
+
+	
+		<StackPanel Grid.Row="2"  Background="Teal"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<ScrollViewer>
+				<TextBox  x:Name="DownloadOutput" IsReadOnly="True" BorderThickness="0"
+					Background="Transparent" TextWrapping="Wrap" 
+					FontSize="12" Foreground="White" Margin="10" >
+				</TextBox >
+			</ScrollViewer>
+		</StackPanel>
+	
+	
+
+			
+			
+    </Grid>
+	
+</Grid>
