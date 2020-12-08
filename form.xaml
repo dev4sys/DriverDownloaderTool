@@ -29,18 +29,45 @@
 
         
 		<Grid.RowDefinitions>
-			<RowDefinition Height="100" />
 			<RowDefinition />
+			<RowDefinition Height="1"  />
 		</Grid.RowDefinitions>
 		
 		<Grid Grid.Row="0" Background="#3D3D3D">
-			<StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
-				<TextBox x:Name="searchbar" Style="{StaticResource CustomStyle}" FontSize="20" Width="500" IsEnabled="True"/>
-				<Button Width="50" x:Name="searchbarbtn" BorderThickness="0" Margin="0,0,0,0" 
-						Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
-					<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Magnify" />
-				</Button>
+		
+			<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
+			
+				<Controls:FlipView x:Name="ProviderList"
+					  Height="150" Width="500"  Margin="0,0,0,50"
+					  MouseHoverBorderEnabled= "False"
+					  IsBannerEnabled="False"
+					  CircularNavigation="True"
+					  Foreground="{DynamicResource MahApps.Brushes.ThemeBackground}" >
+					<Controls:FlipView.Items>				
+						<Grid Background="#007db8" DataContext="Dell">
+							<Image Margin="15" Source=".\img\dell.png" />
+						</Grid>
+						<Grid Background="#A51206" DataContext="Lenovo">
+							<Image Margin="5,0,5,0" Source=".\img\lenovo.png" />
+						</Grid>
+						<!--<Grid Background="#0096d6"  DataContext="HP">
+							<Image Margin="15" Source=".\img\hp.png" />
+						</Grid>	-->	
+					</Controls:FlipView.Items>
+				</Controls:FlipView>
+
+			
+				<StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+					<TextBox x:Name="searchbar" Style="{StaticResource CustomStyle}" FontSize="20" Width="500" IsEnabled="True"/>
+					<Button Width="50" x:Name="searchbarbtn" BorderThickness="0" Margin="0,0,0,0" 
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
+						<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Magnify" />
+					</Button>
+				</StackPanel>
+			
 			</StackPanel>
+			
+			
 		</Grid>
 		
 		<Grid Grid.Row="1">
