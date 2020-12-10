@@ -79,9 +79,9 @@ Class Dell
 {
 
     
-    Static [String]$_vendorName = "Dell"
-    [Object[]] hidden $_deviceCatalog 
-    [Object[]] hidden $_deviceImgCatalog 
+    Static hidden [String]$_vendorName = "Dell"
+    hidden [Object[]] $_deviceCatalog 
+    hidden [Object[]] $_deviceImgCatalog 
 
     # Contructor
     Dell()

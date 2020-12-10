@@ -51,8 +51,8 @@ Function Decode-WithLZ4 ($Content,$originalLength)
 Class Lenovo{
 
 
-    Static [String]$_vendorName = "Lenovo"
-    [Object[]] hidden $_deviceCatalog 
+    Static hidden [String]$_vendorName = "Lenovo"
+    hidden [Object[]] $_deviceCatalog 
 	
 	# Contructor
     Lenovo()

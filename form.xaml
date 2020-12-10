@@ -50,9 +50,9 @@
 						<Grid Background="#A51206" DataContext="Lenovo">
 							<Image Margin="5,0,5,0" Source=".\img\lenovo.png" />
 						</Grid>
-						<!--<Grid Background="#0096d6"  DataContext="HP">
+						<Grid Background="#0096d6"  DataContext="HP">
 							<Image Margin="15" Source=".\img\hp.png" />
-						</Grid>	-->	
+						</Grid>	
 					</Controls:FlipView.Items>
 				</Controls:FlipView>
 
