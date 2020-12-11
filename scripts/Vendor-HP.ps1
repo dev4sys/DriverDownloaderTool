@@ -23,10 +23,10 @@ $Script:7zipExtractExe = (Get-Item "$($PSScriptRoot)\..\resources\7z2002-x64\7z.
 
 $Script:HPOSCategoryWeb =[xml]@'
 <select>
-    <span class="Linux">530006069043305437166081915438460</span>
-    <span class="Windows 10 (64-bit)">792898937266030878164166465223921</span>
-    <span class="Windows 8.1 (64-bit)">29481326718665025226218600797815</span>
-    <span class="Windows 7 (64-bit)">460644864015473348621734632283354</span>
+    <span class="530006069043305437166081915438460">Linux</span>
+    <span class="792898937266030878164166465223921">Windows 10 (64-bit)</span>
+    <span class="29481326718665025226218600797815">Windows 8.1 (64-bit)</span>
+    <span class="460644864015473348621734632283354">Windows 7 (64-bit)</span>
 </select>
 '@
 
@@ -204,7 +204,7 @@ Class HP{
     {
 		
 		# Hard Coded until I find Dell Table
-        $operatingSystemObj= $Script:HPOSCategoryWeb.select.span | Foreach { [PSCustomObject]@{ Name = $_.class ; Value = $_.'#text'.Trim() }}
+        $operatingSystemObj= $Script:HPOSCategoryWeb.select.span | Foreach { [PSCustomObject]@{ Name = $_.'#text'.Trim() ; Value =  $_.class }}
 		return $operatingSystemObj
 
 	}
@@ -228,9 +228,9 @@ Class HP{
                     Title=$latestVersionDriver.title;
                     Category=$item.accordianName;
                     Class=$item.tmsName;
-                    OperatingSystemKeys=[Array]("Windows 10 (64-bit)");
-                    Files= if($latestVersionDriver.productSoftwareFileList){ 
-                        [Array](     
+                    OperatingSystemKeys=[Array]("792898937266030878164166465223921");
+                    Files= [Array]( $latestVersionDriver | ForEach-Object { 
+                        if($_.productSoftwareFileList){    
                             [PSCustomObject]@{
 						        IsSelected=$false;
                                 ID=$latestVersionDriver.productSoftwareFileList.fileName.Split('.')[0];
@@ -239,11 +239,12 @@ Class HP{
                                 Type=$latestVersionDriver.productSoftwareFileList.fileType;
                                 Version=$latestVersionDriver.Version;
                                 URL=$latestVersionDriver.productSoftwareFileList.fileUrl;
-                                Priority='Normal';
+                                Priority='Recommended';
                                 Date=$latestVersionDriver.releaseDateString
                             }
-                        ) 
-                    }
+                            }
+                        }) 
+                    
                 }
 
                 $DownloadItemsObj.Add($current) | Out-Null
