@@ -222,16 +222,22 @@ Class Dell
 
         $SearchResultFormatted = @()
 
-		$userSearchResult = $this._deviceCatalog.Where({$_.PN -match $userInputModel})
+		$userSearchResult = $this._deviceCatalog.Where({$_.PN -match $userInputModel}) | Select-Object -First 12
 	
 		foreach($obj in $userSearchResult){
-			$var = $obj.PC
-            $imageUrl = $("https:$(($this._deviceImgCatalog.Where({$_.Id -eq $var})).Image)")
+			 
             $SearchResultFormatted += [PSCustomObject]@{
                 Name=$obj.PN;
                 Guid=$obj.PC;
                 Path="/product/$($obj.PC)";
-                Image=$imageUrl
+                Image=$(
+                    $obj = $this._deviceImgCatalog.Where({$_.Id -eq $obj.PC})
+                    if($obj.Image){
+                        "https:$($obj.Image)"
+                    }else{
+                        'https://i.dell.com/is/image/DellContent/content/dam/global-site-design/product_images/esupport/icons/esupport-blank-space-v2.png'
+                    }
+                )
             } 
         }
 
@@ -247,7 +253,7 @@ Class Dell
     Static hidden [string] GetModelHomepageURL($devicePath)
     {
 
-        $Homepage = "https://www.dell.com/support/home/en-us/product-support//$($devicePath)"
+        $Homepage = "https://www.dell.com/support/home/en-us/product-support/$($devicePath)"
         return $Homepage
 
     }
