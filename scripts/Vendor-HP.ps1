@@ -21,6 +21,11 @@ $Script:7zipExtractExe = (Get-Item "$($PSScriptRoot)\..\resources\7z2002-x64\7z.
 ###################################################################
 
 
+
+# ----------------------------------------------------
+# Operating System
+# ----------------------------------------------------
+ 
 $Script:HPOSCategoryWeb =[xml]@'
 <select>
     <span class="530006069043305437166081915438460">Linux</span>
@@ -51,11 +56,49 @@ Class HP{
     # Get all Data from HP 
     #####################################################################
     
-    Static hidden [Object[]]GetDevicesCatalog()
+    Static hidden [Object[]] GetDevicesCatalog()
     {
         # they do not provide it but we can query it :D
 		return $null
 	}
+
+
+    Static hidden [Object[]] GetDeviceImgCatalog($category)
+    {
+        
+        $basehref="https://support.hp.com/wps/portal/pps/Home/product-home/"
+        $accessToken = "!ut/p/z1/04_Sj9CPykssy0xPLMnMz0vMAfIjo8zifRw9Ddw9TAy8LYL9LAwcvc39w_wtnY0NDEz0w8EKnN0dPUzMfQwM3ANNnAw8zX39vV2DLIwNPM30o4jRb4ADOBoQpx-Pgij8xofrR4GV4PMBITMKckNDIwwyHQHSQWSH/"
+        $ajaxUrlSDL = 'p0/IZ7_3054ICK0KGTE30AQO5O3KA3G83=CZ6_LAI0GH40K8SN80AK7OVO9C3004=NJgetNextProductCategories=/'
+        $uri = [System.String]::Concat($basehref,$accessToken,$ajaxUrlSDL)
+
+        $categoryCatalog =  Invoke-WebRequest -Uri "$uri" `
+        -Method "POST" `
+        -Headers @{
+        "method"="POST"
+            "authority"="support.hp.com"
+            "scheme"="https"
+            "pragma"="no-cache"
+            "cache-control"="no-cache"
+            "accept"="*/*"
+            "x-requested-with"="XMLHttpRequest"
+            "origin"="https://support.hp.com"
+            "sec-fetch-site"="same-origin"
+            "sec-fetch-mode"="cors"
+            "sec-fetch-dest"="empty"
+            "accept-encoding"="gzip, deflate, br"
+            "accept-language"="en-US,en;q=0.9"
+            } `
+        -ContentType "application/x-www-form-urlencoded; charset=UTF-8" `
+        -Body "categoryId=$($category)&cc=us&lc=en&firstLevel=false&callForHistoricProduct=false&driver=false"
+
+
+        #$productCatalogObj = ($categoryCatalog.Content | ConvertFrom-Json).tmsResponse.fieldList | Select-Object -Property seoLabel,uid,imageUrl
+        $productCatalogObj = $($categoryCatalog.Content | ConvertFrom-Json).tmsResponse.fieldList | Select-Object -Property uid,imageUrl
+        
+
+        return $productCatalogObj
+
+    }
 	
 	
 	#########################################################################
@@ -66,16 +109,15 @@ Class HP{
     {
         # --------------------------------------------------------------------------------------------------------
         # return an Array of object of type: 
-        # Name                                          Guid                            Path                                     Image                                                                   
-        # ----                                          ----                            ----                                     -----                                                                   
-        # HP EliteBook 820 G3 Notebook PC               hp-elitebook-820-g3-notebook-pc hp-elitebook-820-g3-notebook-pc/7815289  https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c04...
-        # HP EliteBook 820 G4 Notebook PC               hp-elitebook-820-g4-notebook-pc hp-elitebook-820-g4-notebook-pc/11122281 https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c04...
-        # HP EliteBook 820 G2 Notebook PC               hp-elitebook-820-g2-notebook-pc hp-elitebook-820-g2-notebook-pc/7343192  https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c04...
-        # --------------------------------------------------------------------------------------------------------
+        # Name                                          Guid                            		 Path                                     Image                                                                   
+        # ----                                          ----                            		 ----                                     -----                                                                   
+        # HP EliteBook 820 G3 Notebook PC               hp-elitebook-820-g3-notebook-pc/7815289  hp-elitebook-820-g3-notebook-pc/7815289  https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c04...
+        # HP EliteBook 820 G4 Notebook PC               hp-elitebook-820-g4-notebook-pc/11122281 hp-elitebook-820-g4-notebook-pc/11122281 https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c04...       
+	   # --------------------------------------------------------------------------------------------------------
 
 
         $escapedChar = [System.Uri]::EscapeDataString($userInputModel)
-		$uri = "https://support.hp.com/typeahead?q=$($escapedChar)&resultLimit=10&store=tmsstore&languageCode=en&filters=class:(pm_series_value%5E1.1%20OR%20pm_name_value%20OR%20pm_number_value)&printFields=tmspmnamevalue,title,body,childnodes,class,productid,seofriendlyname,shortestnavigationpath"
+		$uri = "https://support.hp.com/typeahead?q=$($escapedChar)&resultLimit=10&store=tmsstore&languageCode=en&filters=class:(pm_series_value%5E1.1%20OR%20pm_name_value%20OR%20pm_number_value)&printFields=tmspmnamevalue,title,body,class,productid,seofriendlyname,shortestnavigationpath"
 		
         $jsonResult = Invoke-WebRequest -Uri $uri -Headers @{
         "method"="GET"
@@ -104,22 +146,73 @@ Class HP{
 		# matchScore             : 8,246627
 		# productId              : 5399300
         # --------------------------------------------------------------------------------------------------------
+        $SearchResultFormatted = @()
 
-        $jsonMatches = ($jsonResult.Content | ConvertFrom-Json).Matches
+        $jsonMatches = $($jsonResult.Content | ConvertFrom-Json).Matches
         
-        $SearchResultFormatted = ( $jsonMatches | ForEach-Object { 
-            if($_){
-                [PSCustomObject]@{
-                    Name=$_.name;
-                    Guid="$($_.seoFriendlyName)/$($_.productId)";
-                    Path="$($_.seoFriendlyName)/$($_.productId)";
-                    Image="https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c04625435.png"
+
+
+        $basehref="https://support.hp.com/wps/portal/pps/Home/product-home/"
+        $accessToken = "!ut/p/z1/04_Sj9CPykssy0xPLMnMz0vMAfIjo8zifRw9Ddw9TAy8LYL9LAwcvc39w_wtnY0NDEz0w8EKnN0dPUzMfQwM3ANNnAw8zX39vV2DLIwNPM30o4jRb4ADOBoQpx-Pgij8xofrR4GV4PMBITMKckNDIwwyHQHSQWSH/"
+        $ajaxUrlSDL = 'p0/IZ7_3054ICK0KGTE30AQO5O3KA3G83=CZ6_LAI0GH40K8SN80AK7OVO9C3004=NJgetNextProductCategories=/'
+        $uri = [System.String]::Concat($basehref,$accessToken,$ajaxUrlSDL)
+        
+
+        foreach($obj in $jsonMatches){
+            
+               $SearchResultFormatted += [PSCustomObject]@{
+                    Name=$obj.name;
+                    Guid="$($obj.seoFriendlyName)/$($obj.productId)";
+                    Path="$($obj.seoFriendlyName)/$($obj.productId)";
+                    Image=$( 
+                        $shtNavPath = $obj.shortestNavigationPath.Split('|')
+
+                        if($shtNavPath[-3].length -lt 30){
+                            # for sub model
+                            $uid = $shtNavPath[-3]
+                            $categoryID = $shtNavPath[-4]
+                        }else{
+                            $uid = $shtNavPath[-2]
+                            $categoryID = $shtNavPath[-3]
+                        }
+
+
+                        $categoryCatalog =  Invoke-WebRequest -Uri "$uri" `
+                        -Method "POST" -Headers @{
+                        "method"="POST"
+                            "authority"="support.hp.com"
+                            "scheme"="https"
+                            "pragma"="no-cache"
+                            "cache-control"="no-cache"
+                            "accept"="*/*"
+                            "x-requested-with"="XMLHttpRequest"
+                            "origin"="https://support.hp.com"
+                            "sec-fetch-site"="same-origin"
+                            "sec-fetch-mode"="cors"
+                            "sec-fetch-dest"="empty"
+                            "accept-encoding"="gzip, deflate, br"
+                            "accept-language"="en-US,en;q=0.9"
+                            } `
+                        -ContentType "application/x-www-form-urlencoded; charset=UTF-8" `
+                        -Body "categoryId=$($categoryID)&cc=us&lc=en&firstLevel=false&callForHistoricProduct=false&driver=false"
+                        $obj = $(($categoryCatalog.Content | ConvertFrom-Json).tmsResponse.fieldList).Where({ $_.uid -eq $uid})
+
+                        
+                        # **** delegate don't like this inside runspace :'( ***
+                        # $obj = $([HP]::GetDeviceImgCatalog($shtNavPath[-3])).Where({ $_.uid -eq $shtNavPath[-2]})
+
+                        if($obj){
+                            $obj.imageUrl
+                        }else{
+                            'https://support.hp.com/static/hp-support-site-console/resources/images/tms/tms-fallback.png'
+                        }
+                    )
+                    
                 }
-            }
-        })
+                   
+        }
 
         return $SearchResultFormatted
-
 
 	}
 	
@@ -204,7 +297,7 @@ Class HP{
     {
 		
 		# Hard Coded until I find Dell Table
-        $operatingSystemObj= $Script:HPOSCategoryWeb.select.span | Foreach { [PSCustomObject]@{ Name = $_.'#text'.Trim() ; Value =  $_.class }}
+        $operatingSystemObj= $Script:HPOSCategoryWeb.select.span | Foreach { [PSCustomObject]@{ Name = $_.'#text'.Trim() ; Value =  $_.'#text'.Trim() ; Tag = $_.class }}
 		return $operatingSystemObj
 
 	}
@@ -228,7 +321,7 @@ Class HP{
                     Title=$latestVersionDriver.title;
                     Category=$item.accordianName;
                     Class=$item.tmsName;
-                    OperatingSystemKeys=[Array]("792898937266030878164166465223921");
+                    OperatingSystemKeys=[Array]("Windows 10 (64-bit)");
                     Files= [Array]( $latestVersionDriver | ForEach-Object { 
                         if($_.productSoftwareFileList){    
                             [PSCustomObject]@{
@@ -239,7 +332,7 @@ Class HP{
                                 Type=$latestVersionDriver.productSoftwareFileList.fileType;
                                 Version=$latestVersionDriver.Version;
                                 URL=$latestVersionDriver.productSoftwareFileList.fileUrl;
-                                Priority='Recommended';
+                                Priority=$latestVersionDriver.severityFlag;
                                 Date=$latestVersionDriver.releaseDateString
                             }
                             }
@@ -264,7 +357,51 @@ Class HP{
     hidden [Object[]] PrepareDriversGroupDownload($selectedDrivers)
 	{
         
-        return $null
+		$GroupsByCategory = $selectedDrivers | Group-Object -Property Category
+        $cat = $null
+
+        $PreparedDownloadList = [Collections.ArrayList]@()
+
+        foreach ($category in $GroupsByCategory){
+       
+            # Create category folder 
+            switch ($category.Name) {
+               "Docks-Firmware And Driver"      			{$cat = "Docks"; break}
+               "Driver-Audio"                  				{$cat = "Audio"; break}
+               "Driver-Chipset"             				{$cat = "Chipset"; break}
+               "Driver-Graphics"       						{$cat = "Video"; break}
+               "Driver-Keyboard, Mouse And Input Devices"   {$cat = "Input"; break}
+               "Driver-Network"   							{$cat = "Network"; break}
+               "Driver-Storage"   							{$cat = "Storage"; break}
+               "Operating System-Enhancements and QFEs"   	{$cat = "OS-Enhance"; break}
+               default                            			{$cat = $category.Name ; break}
+            }
+
+
+            foreach($item in $category.Group){  
+					
+		        [Array]$item.Files | ForEach-Object {
+                    
+                    if($_.IsSelected){
+    
+                        $current = [PSCustomObject]@{
+                            DownloadGroup = $cat;
+                            DownLoadID    = $_.ID;
+                            DownloadURL   = $_.URL;
+                            DownloadSize  = $_.Size
+                        }
+
+                        $PreparedDownloadList.Add($current) | Out-Null
+                    }
+
+                }
+               
+            }
+			
+        }
+
+		return $PreparedDownloadList
+		
     }
 
 
@@ -275,27 +412,82 @@ Class HP{
 
     [String] DownloadDriver($url ,$DownloadFolder )
     {
-        return $null
+
+        $var = 'Success'
+		$client = [System.Net.WebClient]::new()
+				
+        try {
+					
+            $sourceFileName = $url.SubString($url.LastIndexOf('/')+1)            
+            $targetFileName = "$DownloadFolder\$sourceFileName"  
+
+            Write-Host $targetFileName    
+	
+            $client.DownloadFile($url, $targetFileName)  
+            #$client.DownloadFileAsync($UrlSelected, $targetFileName) 
+                    
+        } 
+        Catch { 
+            $var = "Error:  $($_.Exception.Message)" 
+        }
+		Finally{
+					
+			$client.dispose()
+		}
+     
+        return $var
     }
 
+
     #########################################################################
-    # Extract Driver
+    # Extract All DELL Drivers in DownloadFolder
     #########################################################################
 
     [String] ExtractDriver($file, $folderPath)
     {
     
-        return $null
-    
-    }
+		$output = ""
 
+
+		# --------------------------------------------------------------------------------------------------------
+		# buffer overflow in case of large files in output // RedirectStandardOutput = false
+		# https://stackoverflow.com/questions/139593/processstartinfo-hanging-on-waitforexit-why
+		# --------------------------------------------------------------------------------------------------------
+
+
+		$pStartInfo = [System.Diagnostics.ProcessStartInfo]::new()
+		$pStartInfo.RedirectStandardError = $true
+		$pStartInfo.RedirectStandardOutput = $false  
+		$pStartInfo.UseShellExecute = $false
+		$pStartInfo.CreateNoWindow = $true
+		$pStartInfo.FileName = $Script:7zipExtractExe
+		# $pStartInfo.Arguments = "x $file Production -o""$folderPath"" -r -y"
+		$pStartInfo.Arguments = "x ""$file"" -o""$folderPath"" -r -y"
+	
+		$process = [System.Diagnostics.Process]::new()
+		$process.StartInfo = $pStartInfo
+		$process.Start() | Out-Null
+		$process.WaitForExit()
+		
+		If($process.ExitCode -ne 0){
+			$stderr = $process.StandardError.ReadToEnd()
+			$output = "Exit code: $($process.ExitCode). Error: $stderr" 
+		}
+		Else{
+			$output =  "Extract Succesful." 
+		}
+
+       
+		return $output
+
+
+    }
 
 
 
 
 	
 }
-
 
 
 

@@ -117,20 +117,23 @@ Class Lenovo{
 		# T480s (type 20L7, 20L8) Laptop (ThinkPad) 3F0D5186-DF09-471C-85C5-4FEC08004447 LAPTOPS-AND-NETBOOKS/THINKPAD-T-SERIES-LAPTOPS/THINKPAD-T480S-TYPE-20L7-20L8 https://download.lenovo.com/images/ProdImageLaptops/t460s.jpg        
         # --------------------------------------------------------------------------------------------------------
 
-        $userSearchResult = $this._deviceCatalog | Where-Object {($_.Name -match $userInputModel) -and ($_.Type -eq "Product.SubSeries")} 
+        $SearchResultFormatted = @()
 
-        $SearchResultFormatted = ( $userSearchResult | ForEach-Object { 
-            if($_){
-                [PSCustomObject]@{
-                    Name=$_.Name;
-                    Guid=$_.ProductGuid;
-                    Path=$_.Id;
-                    Image=$_.Image
-                }
-            }
-        })
+		$userSearchResult = $this._deviceCatalog.Where({($_.Name -match $userInputModel) -and ($_.Type -eq "Product.SubSeries")})
+	
+		foreach($obj in $userSearchResult){
+            $SearchResultFormatted += [PSCustomObject]@{
+                Name=$obj.Name;
+                Guid=$obj.ProductGuid;
+                Path=$obj.Id;
+                Image=$obj.Image
+            } 
+        }
 
         return $SearchResultFormatted
+
+
+
 
     }
 

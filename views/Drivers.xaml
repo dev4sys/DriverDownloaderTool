@@ -144,6 +144,10 @@
 																				<TextBlock Text="Type : " Width="50"/>
 																				<TextBlock Text="{Binding Path=Type}"/>
 																			</StackPanel>
+																			<!--<StackPanel Orientation="Horizontal">
+																				<TextBlock Text="Status : " Width="50"/>
+																				<TextBlock Text="{Binding Path=Priority}"/>
+																			</StackPanel>-->
 																		</StackPanel>
 																		
 																	</StackPanel>

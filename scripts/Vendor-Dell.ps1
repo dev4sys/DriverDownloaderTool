@@ -126,7 +126,7 @@ Class Dell
             "accept-language"="en-US,en;q=0.9"
         }
 
-        $jsonObject = ($result.Content | ConvertFrom-Json) | Select-Object -Property "PN","PC"
+        $jsonObject = $($result.Content | ConvertFrom-Json) | Select-Object -Property "PN","PC"
         return $jsonObject
     
     }
@@ -189,6 +189,22 @@ Class Dell
     }
 
 
+
+	[Object[]] GetText($userInputModel)
+	{
+		#$userSearchResult = $this._deviceCatalog | Where-Object {($_.PN -match $userInputModel)} 
+		$userSearchResult = @()
+	
+		foreach($obj in $this._deviceCatalog){
+            if($obj.PN -match $userInputModel){
+                $userSearchResult += $obj
+            }
+        }
+		
+		return $userSearchResult
+	}
+
+
     #########################################################################
     # Find Model Based on User input
     #########################################################################
@@ -204,20 +220,20 @@ Class Dell
         # Latitude 5300 2-in-1                       latitude-13-5300-2-in-1-laptop        /product/latitude-13-5300-2-in-1-laptop        //i.dell.com/is/ima
         # --------------------------------------------------------------------------------------------------------
 
+        $SearchResultFormatted = @()
 
-        $userSearchResult = $this._deviceCatalog | Where-Object {($_.PN -match $userInputModel)} 
-
-        $SearchResultFormatted = ( $userSearchResult | ForEach-Object { 
-            if($_){
-                $var = $_.PC;
-                [PSCustomObject]@{
-                    Name=$_.PN;
-                    Guid=$_.PC;
-                    Path="/product/$($_.PC)";
-                    Image=$("https:$(($this._deviceImgCatalog | Where-Object{$_.Id -eq $var}).Image)")
-                }
-            }
-        })
+		$userSearchResult = $this._deviceCatalog.Where({$_.PN -match $userInputModel})
+	
+		foreach($obj in $userSearchResult){
+			$var = $obj.PC
+            $imageUrl = $("https:$(($this._deviceImgCatalog.Where({$_.Id -eq $var})).Image)")
+            $SearchResultFormatted += [PSCustomObject]@{
+                Name=$obj.PN;
+                Guid=$obj.PC;
+                Path="/product/$($obj.PC)";
+                Image=$imageUrl
+            } 
+        }
 
         return $SearchResultFormatted
 
