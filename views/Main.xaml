@@ -104,7 +104,7 @@
 														<StackPanel Orientation="Horizontal" >
 															<Image Source="{Binding Path=Image}" Width="80" Height="50" Stretch="Uniform" Margin="1" />
 														</StackPanel> 
-														<StackPanel Orientation="Vertical" Margin="3" Width="240" VerticalAlignment="Center"  >
+														<StackPanel Orientation="Vertical" Margin="3" Width="Auto" MinWidth="240" VerticalAlignment="Center"  >
 															<StackPanel Orientation="Horizontal">
 																<TextBlock Text="Name : "/>
 																<TextBlock Text="{Binding Path=Name}"/>
@@ -154,7 +154,7 @@
 					ShowsPreview="false" ResizeDirection="Columns" Width="5"
 		/>
 		
-		<Controls:TransitioningContentControl Grid.Column="2"  x:Name="transitioning" Width="300"/>
+		<Controls:TransitioningContentControl Grid.Column="2"  x:Name="transitioning" />
 		
 		<!--
 		<Controls:HamburgerMenu x:Name="HamburgerMenuControl"
@@ -184,6 +184,7 @@
 						  HamburgerVisibility="Collapsed"
 						  PanePlacement="Left"
 						  VerticalScrollBarOnLeftSide="False"
+						  MinWidth="600"
 						  >
 	
 		<!--  Items ##  -->
