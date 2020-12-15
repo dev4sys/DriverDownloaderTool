@@ -172,7 +172,7 @@ Class Dell
         $xmlModelInput = New-Object -TypeName System.Xml.XmlDocument
         $xmlModelInput.LoadXml($xmlModelInputRaw)
 
-        $productCatalogObj = $xmlModelInput.Catalog.Product | Select-Object -Property ID,Image
+        $productCatalogObj = $xmlModelInput.Catalog.Product.Where({$_.Image -ne ""}) | Select-Object -Property ID,Image
 
 
         # Works but too slooooowwww ..... keep for later
@@ -186,6 +186,12 @@ Class Dell
            
         return $productCatalogObj
 
+    }
+
+
+    [Object[]] GetImageTable()
+	{
+        return $this._deviceImgCatalog
     }
 
 
@@ -216,13 +222,13 @@ Class Dell
         # return an Array of object of type: 
         # Name                                       Guid                                  Path                                           Image                 
         # ----                                       ----                                  ----                                           -----                 
-        # Latitude 5300                              latitude-13-5300-laptop               /product/latitude-13-5300-laptop               //i.dell.com/is/ima...
-        # Latitude 5300 2-in-1                       latitude-13-5300-2-in-1-laptop        /product/latitude-13-5300-2-in-1-laptop        //i.dell.com/is/ima
+        # Latitude 5300                              latitude-13-5300-laptop               /product/latitude-13-5300-laptop               $null
+        # Latitude 5300 2-in-1                       latitude-13-5300-2-in-1-laptop        /product/latitude-13-5300-2-in-1-laptop        $null
         # --------------------------------------------------------------------------------------------------------
 
         $SearchResultFormatted = @()
-
-		$userSearchResult = $this._deviceCatalog.Where({$_.PN -match $userInputModel}) | Select-Object -First 12
+        #$ImgCatalog = $this._deviceCatalog
+		$userSearchResult = $this._deviceCatalog.Where({$_.PN -match $userInputModel}) 
 	
 		foreach($obj in $userSearchResult){
 			 
@@ -230,16 +236,19 @@ Class Dell
                 Name=$obj.PN;
                 Guid=$obj.PC;
                 Path="/product/$($obj.PC)";
-                Image=$(
-                    $obj = $this._deviceImgCatalog.Where({$_.Id -eq $obj.PC})
-                    if($obj.Image){
-                        "https:$($obj.Image)"
-                    }else{
-                        'https://i.dell.com/is/image/DellContent/content/dam/global-site-design/product_images/esupport/icons/esupport-blank-space-v2.png'
-                    }
-                )
+                Image= $(
+                     #   $obj = $ImageTable.Where({$_.Id -eq $obj.PC})
+                     $obj = $this._deviceImgCatalog.Where({$_.Id -eq $obj.PC})
+                        if($obj.Image){
+                            "https:$($obj.Image)"
+                        }else{
+                            'https://i.dell.com/is/image/DellContent/content/dam/global-site-design/product_images/esupport/icons/esupport-blank-space-v2.png'
+                        }
+                    )
             } 
         }
+
+
 
         return $SearchResultFormatted
 

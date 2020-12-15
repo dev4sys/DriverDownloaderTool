@@ -43,11 +43,13 @@ Class HP{
     
     Static hidden [String]$_vendorName = "Hewlett-Packard"
 	hidden [Object[]] $_deviceCatalog 
+    hidden [Object[]] $_deviceImgCatalog  
 	
 	# Contructor
     HP()
     {
         $this._deviceCatalog = [HP]::GetDevicesCatalog()
+        $this._deviceImgCatalog = $null
     }
 
 	

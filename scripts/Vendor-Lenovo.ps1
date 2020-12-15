@@ -52,12 +52,14 @@ Class Lenovo{
 
 
     Static hidden [String]$_vendorName = "Lenovo"
-    hidden [Object[]] $_deviceCatalog 
+    hidden [Object[]] $_deviceCatalog
+    hidden [Object[]] $_deviceImgCatalog  
 	
 	# Contructor
     Lenovo()
     {
         $this._deviceCatalog = [Lenovo]::GetDevicesCatalog()
+        $this._deviceImgCatalog = $null
     }
 
 
