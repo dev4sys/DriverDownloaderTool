@@ -54,11 +54,26 @@
 				</DataTrigger>
 			  </DataTemplate.Triggers>
 			</DataTemplate>
-			
+
         </Grid.Resources>
 		
 		
+		<Grid.RowDefinitions>
+			<RowDefinition Height="100"/>
+			<RowDefinition Height="*"  />
+		</Grid.RowDefinitions>
 		
+		<Grid Grid.Row="0" Background="#3D3D3D">
+			<StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+				<TextBox x:Name="searchbar"  FontSize="20" Width="500" IsEnabled="True"/>
+				<Button Width="50" x:Name="searchbarbtn" BorderThickness="0" Margin="0,0,0,0" 
+						Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
+					<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Magnify" />
+				</Button>
+			</StackPanel>
+		</Grid>
+		
+		<Grid Grid.Row="1">
 		
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="400" />
@@ -149,7 +164,6 @@
 		
 		
 		
-		
 		<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Background="#FFBCBCBC"
 					ShowsPreview="false" ResizeDirection="Columns" Width="5"
 		/>
@@ -187,112 +201,114 @@
 						  MinWidth="600"
 						  >
 	
-		<!--  Items ##  -->
-		<Controls:HamburgerMenu.ItemsSource >
-		
-			<Controls:HamburgerMenuItemCollection >
+			<!--  Items ##  -->
+			<Controls:HamburgerMenu.ItemsSource >
 			
-				<Controls:HamburgerMenuIconItem Label="Drivers" >
-					<Controls:HamburgerMenuIconItem.Icon>
-						<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
-						Kind="PackageVariant" />
-					</Controls:HamburgerMenuIconItem.Icon>
-					<Controls:HamburgerMenuIconItem.Tag>
-						<Grid x:Name="DriversView"></Grid>
-					</Controls:HamburgerMenuIconItem.Tag>
-				</Controls:HamburgerMenuIconItem>
+				<Controls:HamburgerMenuItemCollection >
 				
-				<Controls:HamburgerMenuIconItem Label="Download">
-					<Controls:HamburgerMenuIconItem.Icon>
-						<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
-						Kind="CloudDownload" />						
-					</Controls:HamburgerMenuIconItem.Icon>
-					<Controls:HamburgerMenuIconItem.Tag>
-						<Grid x:Name="DownloadView"></Grid>
-					</Controls:HamburgerMenuIconItem.Tag>
-				</Controls:HamburgerMenuIconItem>
+					<Controls:HamburgerMenuIconItem Label="Drivers" >
+						<Controls:HamburgerMenuIconItem.Icon>
+							<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+							Kind="PackageVariant" />
+						</Controls:HamburgerMenuIconItem.Icon>
+						<Controls:HamburgerMenuIconItem.Tag>
+							<Grid x:Name="DriversView"></Grid>
+						</Controls:HamburgerMenuIconItem.Tag>
+					</Controls:HamburgerMenuIconItem>
+					
+					<Controls:HamburgerMenuIconItem Label="Download">
+						<Controls:HamburgerMenuIconItem.Icon>
+							<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+							Kind="CloudDownload" />						
+						</Controls:HamburgerMenuIconItem.Icon>
+						<Controls:HamburgerMenuIconItem.Tag>
+							<Grid x:Name="DownloadView"></Grid>
+						</Controls:HamburgerMenuIconItem.Tag>
+					</Controls:HamburgerMenuIconItem>
 
-				<Controls:HamburgerMenuIconItem Label="Extract">
-					<Controls:HamburgerMenuIconItem.Icon>
-						<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
-						Kind="FolderZip" />						
-					</Controls:HamburgerMenuIconItem.Icon>
-					<Controls:HamburgerMenuIconItem.Tag>
-						<Grid x:Name="ExtractView"></Grid>
-					</Controls:HamburgerMenuIconItem.Tag>
-				</Controls:HamburgerMenuIconItem>
+					<Controls:HamburgerMenuIconItem Label="Extract">
+						<Controls:HamburgerMenuIconItem.Icon>
+							<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+							Kind="FolderZip" />						
+						</Controls:HamburgerMenuIconItem.Icon>
+						<Controls:HamburgerMenuIconItem.Tag>
+							<Grid x:Name="ExtractView"></Grid>
+						</Controls:HamburgerMenuIconItem.Tag>
+					</Controls:HamburgerMenuIconItem>
+					
+				</Controls:HamburgerMenuItemCollection>
 				
-			</Controls:HamburgerMenuItemCollection>
-			
-			
-		</Controls:HamburgerMenu.ItemsSource>
+				
+			</Controls:HamburgerMenu.ItemsSource>
 
 
-	<!--  Options  -->
-		<Controls:HamburgerMenu.OptionsItemsSource>
-		  <Controls:HamburgerMenuItemCollection>
+		<!--  Options  -->
+			<Controls:HamburgerMenu.OptionsItemsSource>
+			  <Controls:HamburgerMenuItemCollection>
 
-			<Controls:HamburgerMenuIconItem Label="Settings">
-			  <Controls:HamburgerMenuIconItem.Icon>
-				<iconPacks:PackIconMaterial Width="22" 
-									Height="22"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									Kind="Cog" />
+				<Controls:HamburgerMenuIconItem Label="Settings">
+				  <Controls:HamburgerMenuIconItem.Icon>
+					<iconPacks:PackIconMaterial Width="22" 
+										Height="22"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Kind="Cog" />
 
-			  </Controls:HamburgerMenuIconItem.Icon>
-			  <Controls:HamburgerMenuIconItem.Tag>
-				<Grid x:Name="SettingsView"></Grid>
-			  </Controls:HamburgerMenuIconItem.Tag>
-			</Controls:HamburgerMenuIconItem>
+				  </Controls:HamburgerMenuIconItem.Icon>
+				  <Controls:HamburgerMenuIconItem.Tag>
+					<Grid x:Name="SettingsView"></Grid>
+				  </Controls:HamburgerMenuIconItem.Tag>
+				</Controls:HamburgerMenuIconItem>
 
-		  </Controls:HamburgerMenuItemCollection>
-		</Controls:HamburgerMenu.OptionsItemsSource>
-
-
-		<!--  Content  -->
-		<Controls:HamburgerMenu.ContentTemplate>
-			<DataTemplate>
-				<Grid x:Name="ContentGrid">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="48" />
-						<RowDefinition />
-					</Grid.RowDefinitions>
-					<Border Grid.Row="0" Margin="-1 0 -1 0" Background="#7A7A7A">
-						<TextBlock x:Name="Header"
-						   HorizontalAlignment="Center"
-						   VerticalAlignment="Center"
-						   FontSize="24"
-						   Foreground="White"
-						   Text="{Binding Label}" />
-					</Border>
-					<Controls:TransitioningContentControl Grid.Row="1"
-							Content="{Binding}"
-							RestartTransitionOnContentChange="True"
-							Transition="Default">
-
-						<Controls:TransitioningContentControl.Resources>
-							<DataTemplate DataType="{x:Type Controls:HamburgerMenuIconItem}">
-								<ContentControl Content="{Binding Tag, Mode=OneWay}"
-									  Focusable="True"
-									  IsTabStop="False" />
-							</DataTemplate>
-						</Controls:TransitioningContentControl.Resources>
-
-					</Controls:TransitioningContentControl>
-				</Grid>
-			</DataTemplate>
-		</Controls:HamburgerMenu.ContentTemplate>
+			  </Controls:HamburgerMenuItemCollection>
+			</Controls:HamburgerMenu.OptionsItemsSource>
 
 
-	</Controls:HamburgerMenu>
+			<!--  Content  -->
+			<Controls:HamburgerMenu.ContentTemplate>
+				<DataTemplate>
+					<Grid x:Name="ContentGrid">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="48" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<Border Grid.Row="0" Margin="-1 0 -1 0" Background="#7A7A7A">
+							<TextBlock x:Name="Header"
+							   HorizontalAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontSize="24"
+							   Foreground="White"
+							   Text="{Binding Label}" />
+						</Border>
+						<Controls:TransitioningContentControl Grid.Row="1"
+								Content="{Binding}"
+								RestartTransitionOnContentChange="True"
+								Transition="Default">
+
+							<Controls:TransitioningContentControl.Resources>
+								<DataTemplate DataType="{x:Type Controls:HamburgerMenuIconItem}">
+									<ContentControl Content="{Binding Tag, Mode=OneWay}"
+										  Focusable="True"
+										  IsTabStop="False" />
+								</DataTemplate>
+							</Controls:TransitioningContentControl.Resources>
+
+						</Controls:TransitioningContentControl>
+					</Grid>
+				</DataTemplate>
+			</Controls:HamburgerMenu.ContentTemplate>
+
+
+		</Controls:HamburgerMenu>
 	
 	
-
+		</Grid>
 	
 	
 	
     </Grid>
+	
+	
 
 
 </Grid>

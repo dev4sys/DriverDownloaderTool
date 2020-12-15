@@ -1,0 +1,46 @@
+<Grid
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	>
+
+	
+
+		<Grid Grid.Row="0" Background="#3D3D3D">
+
+			<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
+				
+				
+				
+				
+				<Controls:FlipView x:Name="ProviderList"
+					  Height="150" Width="500"  Margin="0,0,0,50"
+					  MouseHoverBorderEnabled= "False"
+					  IsBannerEnabled="False"
+					  CircularNavigation="True"
+					  Foreground="{DynamicResource MahApps.Brushes.ThemeBackground}" >
+					<Controls:FlipView.Items>				
+						<Grid Background="#007db8" DataContext="Dell">
+							<Image Margin="15" Source="..\img\dell.png" />
+						</Grid>
+						<Grid Background="#A51206" DataContext="Lenovo">
+							<Image Margin="5,0,5,0" Source="..\img\lenovo.png" />
+						</Grid>
+						<Grid Background="#0096d6"  DataContext="HP">
+							<Image Margin="15" Source="..\img\hp.png" />
+						</Grid>	
+					</Controls:FlipView.Items>
+				</Controls:FlipView>
+				
+				<Label  Content="Choose and Double Click on your Provider" Width="Auto" 
+						HorizontalAlignment="Center" FontSize="18" 
+						Foreground="#FFFFFF"/>
+				
+			</StackPanel>
+		
+		</Grid>
+
+
+
+</Grid>

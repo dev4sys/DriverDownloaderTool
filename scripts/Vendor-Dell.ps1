@@ -222,8 +222,8 @@ Class Dell
         # return an Array of object of type: 
         # Name                                       Guid                                  Path                                           Image                 
         # ----                                       ----                                  ----                                           -----                 
-        # Latitude 5300                              latitude-13-5300-laptop               /product/latitude-13-5300-laptop               $null
-        # Latitude 5300 2-in-1                       latitude-13-5300-2-in-1-laptop        /product/latitude-13-5300-2-in-1-laptop        $null
+        # Latitude 5300                              latitude-13-5300-laptop               /product/latitude-13-5300-laptop               https://i.dell.com/is/ima...
+        # Latitude 5300 2-in-1                       latitude-13-5300-2-in-1-laptop        /product/latitude-13-5300-2-in-1-laptop        https://i.dell.com/is/ima...
         # --------------------------------------------------------------------------------------------------------
 
         $SearchResultFormatted = @()

@@ -74,7 +74,7 @@
 				
 
 	
-		<StackPanel Grid.Row="2"  Background="Teal"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<StackPanel Grid.Row="2"  Background="#FF0C5996"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<TextBox  x:Name="ExtractOutput" IsReadOnly="True" BorderThickness="0"
 					Background="Transparent" TextWrapping="Wrap" 

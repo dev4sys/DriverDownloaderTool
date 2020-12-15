@@ -13,20 +13,39 @@
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
             </ResourceDictionary.MergedDictionaries>
-			<!-- override border shown onclick or hover textbox -->
-			<Style x:Key="CustomStyle" TargetType="TextBox">
-			   <Style.Triggers>
-				<Trigger Property="IsFocused" Value="True">
-				 <Setter Property="Background" Value="#E0E0E0" />
-				</Trigger>
-			   </Style.Triggers>
-			  </Style>
         </ResourceDictionary>
     </Window.Resources>	
 	
+	
+	<Controls:MetroWindow.Flyouts>
+		<Controls:FlyoutsControl>
+			<Controls:Flyout x:Name="TopFlyout" Margin="50 0 50 0"
+				CloseButtonVisibility="Collapsed"
+				Header="Top"
+				IsModal="True"
+				IsPinned="False"
+				Position="Bottom"
+				Theme="Light"
+				TitleVisibility="Collapsed">
+				<Grid Height="150">
+					<TextBlock Margin="10"
+							   FontSize="22"
+							   Text="Flyout on the top..." />
+					<!-- <Grid VerticalAlignment="Bottom" Background="{DynamicResource MahApps.Brushes.Accent2}"> 
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+					</Grid> -->
+				</Grid>
+			</Controls:Flyout>
+		</Controls:FlyoutsControl>
+	</Controls:MetroWindow.Flyouts>
+	
+	
 	<Grid MinWidth="800" MinHeight="600">
 
-		 <Grid x:Name="Overlay" Panel.ZIndex="10" Visibility="Collapsed" 
+		<Grid x:Name="Overlay" Panel.ZIndex="10" Visibility="Collapsed" 
 			Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
 			<Grid.Background>
 			  <SolidColorBrush Color="Black" Opacity=".2"/>
@@ -34,65 +53,17 @@
 
 				<Controls:ProgressRing x:Name="ProgressRing" Foreground="#FFFFFF"
                   IsActive="False" />
-		  </Grid>
-        
+		  </Grid> 
 
-		
 		<Grid>
 		
-		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="1"  />
-		</Grid.RowDefinitions>
-		
-		<Grid Grid.Row="0" Background="#3D3D3D">
-		
-			<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" >
-				
-				
-				<Controls:FlipView x:Name="ProviderList"
-					  Height="150" Width="500"  Margin="0,0,0,50"
-					  MouseHoverBorderEnabled= "False"
-					  IsBannerEnabled="False"
-					  CircularNavigation="True"
-					  Foreground="{DynamicResource MahApps.Brushes.ThemeBackground}" >
-					<Controls:FlipView.Items>				
-						<Grid Background="#007db8" DataContext="Dell">
-							<Image Margin="15" Source=".\img\dell.png" />
-						</Grid>
-						<Grid Background="#A51206" DataContext="Lenovo">
-							<Image Margin="5,0,5,0" Source=".\img\lenovo.png" />
-						</Grid>
-						<Grid Background="#0096d6"  DataContext="HP">
-							<Image Margin="15" Source=".\img\hp.png" />
-						</Grid>	
-					</Controls:FlipView.Items>
-				</Controls:FlipView>
+			<Controls:TransitioningContentControl x:Name="MainContentControl"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				Margin="0 0 0 0"
+				Transition="Up" />
 
 			
-				<StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
-					<TextBox x:Name="searchbar" Style="{StaticResource CustomStyle}" FontSize="20" Width="500" IsEnabled="True"/>
-					<Button Width="50" x:Name="searchbarbtn" BorderThickness="0" Margin="0,0,0,0" 
-							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
-						<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" Kind="Magnify" />
-					</Button>
-				</StackPanel>
-			
-			</StackPanel>
-			
-			
-		</Grid>
-		
-		<Grid Grid.Row="1" >
-		
-			<Controls:TransitioningContentControl x:Name="MainContentControl"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Stretch"
-					Margin="0 0 0 0"
-					Transition="Up" />
-		
-		</Grid>
-		
 		</Grid>
 	
 	</Grid>

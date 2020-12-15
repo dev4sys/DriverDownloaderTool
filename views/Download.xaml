@@ -110,7 +110,7 @@
 				
 
 	
-		<StackPanel Grid.Row="2"  Background="Teal"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<StackPanel Grid.Row="2"  Background="#FF0C5996"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<ScrollViewer>
 				<TextBox  x:Name="DownloadOutput" IsReadOnly="True" BorderThickness="0"
 					Background="Transparent" TextWrapping="Wrap" 
