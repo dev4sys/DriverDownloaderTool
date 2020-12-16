@@ -219,14 +219,14 @@
 					<Controls:HamburgerMenuIconItem Label="Download">
 						<Controls:HamburgerMenuIconItem.Icon>
 							<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
-							Kind="CloudDownload" />						
+							Kind="FileDownload" />						
 						</Controls:HamburgerMenuIconItem.Icon>
 						<Controls:HamburgerMenuIconItem.Tag>
 							<Grid x:Name="DownloadView"></Grid>
 						</Controls:HamburgerMenuIconItem.Tag>
 					</Controls:HamburgerMenuIconItem>
 
-					<Controls:HamburgerMenuIconItem Label="Extract">
+				<!--	<Controls:HamburgerMenuIconItem Label="Extract">
 						<Controls:HamburgerMenuIconItem.Icon>
 							<iconPacks:PackIconMaterial Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"
 							Kind="FolderZip" />						
@@ -234,7 +234,7 @@
 						<Controls:HamburgerMenuIconItem.Tag>
 							<Grid x:Name="ExtractView"></Grid>
 						</Controls:HamburgerMenuIconItem.Tag>
-					</Controls:HamburgerMenuIconItem>
+					</Controls:HamburgerMenuIconItem> -->
 					
 				</Controls:HamburgerMenuItemCollection>
 				

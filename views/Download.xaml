@@ -56,12 +56,22 @@
 				</StackPanel>
 				
 				
-				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
 			
 					<Button Width="60" x:Name="DonwloadBtn" BorderThickness="0" Margin="0,0,0,0" 
 							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
 						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
-							Kind="FileDownload" />
+							Kind="CloudDownload" />
+					</Button>
+					
+				</StackPanel>
+				
+				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
+			
+					<Button Width="60" x:Name="ExtractBtn" BorderThickness="0" Margin="0,0,0,0" 
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
+						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
+							Kind="FolderZip" />
 					</Button>
 					
 				</StackPanel>
@@ -72,14 +82,14 @@
 			
 			
 			<Grid Margin="5">
-				<ProgressBar x:Name="DonwloadProgress" Minimum="0" Maximum="100" HorizontalAlignment="Stretch" Height="10" />
+				<ProgressBar x:Name="ProgressIndicator" Minimum="0" Maximum="100" HorizontalAlignment="Stretch" Height="10" />
 			</Grid>
 
 			<StackPanel Orientation="Horizontal" Margin="5,5,5,10">
 			
-				<Label Content="Download Folder:" Width="120" Background="#DEDEDE"/>
-				<TextBox x:Name="DownloadProjectPath" Width="300" Text="" />
-				<Button x:Name="FolderDownloadBrowseBtn" Width="50" Margin="5,0,0,0">
+				<Label Content="Working Directory:" Width="120" Background="#DEDEDE"/>
+				<TextBox x:Name="OutputProjectPath" Width="300" Text="" />
+				<Button x:Name="FolderProjectBrowseBtn" Width="50" Margin="5,0,0,0">
 					<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" 
 						Kind="FolderOpen" />
 				</Button>
@@ -110,14 +120,14 @@
 				
 
 	
-		<StackPanel Grid.Row="2"  Background="#FF0C5996"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-			<ScrollViewer>
-				<TextBox  x:Name="DownloadOutput" IsReadOnly="True" BorderThickness="0"
-					Background="Transparent" TextWrapping="Wrap" 
+		<Grid Grid.Row="2"  Background="#FF0C5996"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<ScrollViewer Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Border}},Path=ActualHeight}">
+				<TextBox  x:Name="ProgressOutput" IsReadOnly="True" BorderThickness="0"
+					Background="Transparent" TextWrapping="Wrap" VerticalAlignment="Stretch"
 					FontSize="12" Foreground="White" Margin="10" >
 				</TextBox >
 			</ScrollViewer>
-		</StackPanel>
+		</Grid>
 	
 	
 
