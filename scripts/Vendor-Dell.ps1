@@ -527,6 +527,53 @@ Class Dell
 
     }
 
+ 
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
+    [Object[]] GetCabDriversContent($urlCabReleaseNote){
+
+
+        #$urlCabReleaseNote = "https://dl.dell.com/FOLDER06609809M/1/5310-win10-A03-RJRT2.html"
+
+        $cabReleaseNote =  Invoke-WebRequest -Uri $urlCabReleaseNote -Headers @{
+        "method"="GET"
+          "authority"="dl.dell.com"
+          "scheme"="https"
+          "pragma"="no-cache"
+          "cache-control"="no-cache"
+          "upgrade-insecure-requests"="1"
+          "accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+          "sec-fetch-site"="none"
+          "sec-fetch-mode"="navigate"
+          "sec-fetch-user"="?1"
+          "sec-fetch-dest"="document"
+          "accept-encoding"="gzip, deflate, br"
+          "accept-language"="en-US,en;q=0.9"
+        }
+
+
+        $ReleaseNoteString = $cabReleaseNote.ParsedHtml.body.innerText
+        $tab = [Array]$cabReleaseNote.ParsedHTML.GetElementsByTagName("tr")
+
+        $result = @()
+
+        foreach ($elem in ($tab[0] | Select -Skip 1 )){
+            $result += [PScustomobject]@{
+                Category          = $elem.cells[0].innerText;
+                ReleaseID         = $elem.cells[1].innerText;
+                DeviceDescription = $elem.cells[2].innerText;
+                DellVersion       = $elem.cells[3].innerText;
+                VendorVersion     = $elem.cells[4].innerText
+            }
+        }
+
+
+        return $result
+
+
+    }
 
 
 }

@@ -399,6 +399,68 @@ Class Lenovo{
 
 
 
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
+    [Object[]] GetCabDriversContent($urlCabReleaseNote){
+        
+        # --------------------------------------------------------------------------------------------------------
+        # ReleaseID DeviceDescription                    VendorVersion 
+        # --------- -----------------                    ------------- 
+        # N10A902W  Realtek High Definition Audio Driver 6.0.1.7898    
+        # GICR13WW  Realtek Integrated Camera Driver     6.2.9200.10252
+        # GRLK02WW  Intel IO Driver                      1.1.253.0     
+        # ...
+        # --------------------------------------------------------------------------------------------------------
+        
+
+        #$urlCabReleaseNote = "https://download.lenovo.com/pccbbs/mobiles/tp_x1carbon_mt20a7-20a8_w1064_201611.txt"
+
+        $cabReleaseNote = Invoke-WebRequest -Uri $urlCabReleaseNote -Headers @{
+        "Pragma"="no-cache"
+          "Cache-Control"="no-cache"
+          "Upgrade-Insecure-Requests"="1"
+          "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+          "Sec-Fetch-Site"="same-site"
+          "Sec-Fetch-Mode"="navigate"
+          "Sec-Fetch-User"="?1"
+          "Sec-Fetch-Dest"="document"
+          "Accept-Encoding"="gzip, deflate, br"
+          "Accept-Language"="en-US,en;q=0.9"
+          }
+
+
+        $ReleaseNoteString = $cabReleaseNote.Content.Split("`n")
+
+        $versionListRegion = $ReleaseNoteString.Where({$_ -match 'Version List'})
+        $versionListIndex = $ReleaseNoteString.IndexOf($versionListRegion[0])
+        $EndversionListRegion = $ReleaseNoteString.Where({$_ -match 'LIMITATIONS'})
+        $EndversionListIndex = $ReleaseNoteString.IndexOf($EndversionListRegion[0])
+
+
+        $TextOfInterest = $ReleaseNoteString[$versionListIndex..$($EndversionListIndex-2)]
+        $BuildIDRegex = '\b(?=.*[0-9])(?=.*[A-Z])([A-Z0-9]){8}\b'
+
+        $result = @()
+
+        foreach ($elem in $TextOfInterest){
+            $match = [regex]::Match($elem, $BuildIDRegex)
+            if($match.Success){
+                $result += [PScustomobject]@{
+                    ReleaseID         = $match.Value;
+                    DeviceDescription = $elem.Substring(0,$match.Index).Trim()
+                    VendorVersion     = $elem.Substring($match.Index+8 ).Trim()
+                }
+            }
+        }
+
+        return $result
+    
+    }
+
+
+
 
 
 
