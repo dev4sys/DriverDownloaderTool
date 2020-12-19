@@ -226,10 +226,13 @@ Class Lenovo{
         $DownloadItemsObj = [Collections.ArrayList]@()
 
         ForEach ($item in $DownloadItemsRaw){
-
-            # Get the exe,zip only and the Title branch, no need of the readme
-            [Array]$ExeFiles = $item.Files | Where-Object {($_.TypeString -notmatch "TXT")  }  
-        
+            # Get the exe,zip only and the Title branch, no need of the readme Except CAB file 
+            if($item.Title -match "SCCM Package"){
+                [Array]$ExeFiles = $item.Files   
+            }
+            else{
+                [Array]$ExeFiles = $item.Files | Where-Object {($_.TypeString -notmatch "TXT")} 
+            }
             $current = [PSCustomObject]@{
                 Title=$item.Title;
                 Category=$item.Category.Name;
@@ -397,6 +400,21 @@ Class Lenovo{
     }
 
 
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
+    [Object[]] ExtractCabInfosOfModel($DriversModeldatas){
+        
+        $allCABType = $DriversModeldatas.Where({$_.Title -match 'SCCM Package'})
+
+        if($allCABType.Count -gt 0){
+            return $allCABType
+        }else{
+            return $null
+        }
+        
+    }
 
 
     #########################################################################

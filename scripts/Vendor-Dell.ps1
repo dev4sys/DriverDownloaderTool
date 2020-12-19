@@ -527,6 +527,21 @@ Class Dell
 
     }
 
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
+    [Object[]] ExtractCabInfosOfModel($DriversModeldatas){
+        
+        $allCABType = $DriversModeldatas.Where({$_.Title -match 'Driver Pack'})
+
+        if($allCABType.Count -gt 0){
+            return $allCABType
+        }else{
+            return $null
+        }
+        
+    }
  
     #########################################################################
     # Get CAB Content 

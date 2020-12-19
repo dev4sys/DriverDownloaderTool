@@ -490,6 +490,19 @@ Class HP{
     # Get CAB Content 
     #########################################################################
 
+    [Object[]] ExtractCabInfosOfModel($DriversModeldatas){
+        
+
+        # There is no CAB File for them in device drivers's results :(
+        return $null
+        
+        
+    }
+
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
     [Object[]] GetCabDriversContent($urlCabReleaseNote){
 
         $headerRegex = "\[+[A-Z0-9._  %<>/#+-]+\]"
