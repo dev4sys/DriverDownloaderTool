@@ -486,6 +486,70 @@ Class HP{
     }
 
 
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
+    [Object[]] ExtractCabInfosOfModel($DriversModeldatas){
+        
+
+        # There is no CAB File for them in device drivers's results :(
+        return $null
+        
+        
+    }
+
+    #########################################################################
+    # Get CAB Content 
+    #########################################################################
+
+    [Object[]] GetCabDriversContent($urlCabReleaseNote){
+
+        $headerRegex = "\[+[A-Z0-9._  %<>/#+-]+\]"
+
+        #$urlCabReleaseNote =  "https://ftp.hp.com/pub/softpaq/sp111001-111500/sp111105.cva"
+
+        $cabReleaseNote = Invoke-WebRequest -Uri $urlCabReleaseNote -Headers @{
+        "Pragma"="no-cache"
+        "Cache-Control"="no-cache"
+        "Upgrade-Insecure-Requests"="1"
+        "Accept"="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+        "Sec-Fetch-Site"="none"
+        "Sec-Fetch-Mode"="navigate"
+        "Sec-Fetch-User"="?1"
+        "Sec-Fetch-Dest"="document"
+        "Accept-Encoding"="gzip, deflate, br"
+        "Accept-Language"="en-US,en;q=0.9"
+        }
+
+
+        $ReleaseNoteINI = $cabReleaseNote.Content.Split("`n")
+        $AllSections = $ReleaseNoteINI.Where({$_ -match $headerRegex})|%{[PSCustomObject]@{Section=$_; Index=$ReleaseNoteINI.IndexOf($_)}}
+  
+        $OsSection     = $AllSections.Where({$_.Section.Trim() -eq '[Operating Systems]'}).Item(0)
+        $USEnhancement = $AllSections.Where({$_.Section.Trim() -eq '[US.Enhancements]'}).Item(0)
+        $upperBoundOsSection  = $USEnhancement.Index - 1
+        $upperBoundUSEnchance = $AllSections.Get($AllSections.IndexOf($USEnhancement) + 1).Index -1
+
+        # GET OS and DRIVERS RELEASE NOTES
+        $OSDatas = $ReleaseNoteINI[$($OsSection.Index+1)..$upperBoundOsSection]
+        $DriversVersion = $ReleaseNoteINI[$($USEnhancement.Index +1)..$upperBoundUSEnchance]
+
+        $result = @()
+
+        foreach($line in $DriversVersion){
+            $arrayText = $line.Split(',')
+            if ($arrayText.Count -ge 2){   
+                $result += [PScustomobject]@{
+                    DeviceDescription= $arrayText[0].Trim();
+                    VendorVersion = $arrayText[1].Replace('version','').Trim() ;
+                }
+            }
+        }
+
+        return $result
+
+    }
 
 
 	

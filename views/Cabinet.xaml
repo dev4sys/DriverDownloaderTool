@@ -1,0 +1,61 @@
+<Grid
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	>
+
+	
+	<Grid>
+
+
+		<StackPanel Grid.Row="0" Margin="5,5,5,5" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  > 
+		
+			<StackPanel Orientation="Horizontal" Margin="5,5,5,10">
+			
+				<Label Content="Release Note URL:" Width="120" Background="#DEDEDE"/>
+				<TextBox x:Name="ReleaseNoteURLTxtBox" Width="400" Text="" >
+				    <TextBox.ToolTip>
+						<ToolTip>
+							<StackPanel>
+								<Label FontWeight="Bold" Content="Paste CAB release note here"/>
+								<Label Content="Dell:   use html link (https://dl.dell.com/.../xx-win10-A0xx.html)"/>
+								<Label Content="Lenovo: use txt link  (https://download.lenovo.com/.../tp_xxx.txt)"/>
+								<Label Content="HP:     use cva link  (https://ftp.hp.com/../spxxxx.cva)"/>
+							</StackPanel>
+						</ToolTip>
+					</TextBox.ToolTip>
+				</TextBox>
+				<Button x:Name="ImportCABcontentBtn" Width="50" Margin="5,0,0,0">
+					<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" 
+						Kind="Import" />
+				</Button>
+				
+			</StackPanel>
+			
+			
+			<DataGrid Name="CabinetContentDatagrid" ItemsSource="{Binding}" Margin="5,5,5,5" 
+						HorizontalAlignment="Stretch" AutoGenerateColumns="False"							
+						ScrollViewer.CanContentScroll="True" 
+						ScrollViewer.VerticalScrollBarVisibility="Auto">
+					<DataGrid.Columns>	
+
+
+						<DataGridTextColumn Header="Software Name" Binding="{Binding DeviceDescription}" Width="100"/>
+						<DataGridTextColumn Header="ID" Binding="{Binding ReleaseID}" Width="70"/>
+						<DataGridTextColumn Header="Version" Binding="{Binding VendorVersion}" Width="350" />
+						
+						
+					</DataGrid.Columns>
+					
+			</DataGrid>
+			
+			
+			
+		</StackPanel>
+
+	 
+
+    </Grid>
+
+
+</Grid>
