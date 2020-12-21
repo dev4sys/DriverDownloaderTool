@@ -432,7 +432,7 @@ Class Lenovo{
         # ...
         # --------------------------------------------------------------------------------------------------------
         
-
+        #$urlCabReleaseNote = "https://download.lenovo.com/pccbbs/mobiles/tp_t460_w1064_202001.txt"
         #$urlCabReleaseNote = "https://download.lenovo.com/pccbbs/mobiles/tp_x1carbon_mt20a7-20a8_w1064_201611.txt"
 
         $cabReleaseNote = Invoke-WebRequest -Uri $urlCabReleaseNote -Headers @{
@@ -453,9 +453,15 @@ Class Lenovo{
 
         $versionListRegion = $ReleaseNoteString.Where({$_ -match 'Version List'})
         $versionListIndex = $ReleaseNoteString.IndexOf($versionListRegion[0])
-        $EndversionListRegion = $ReleaseNoteString.Where({$_ -match 'LIMITATIONS'})
-        $EndversionListIndex = $ReleaseNoteString.IndexOf($EndversionListRegion[0])
 
+        if($versionListRegion.Count -gt 1){
+            $EndversionListIndex = [Array]::IndexOf($ReleaseNoteString,$versionListRegion[1],$versionListIndex+1)
+        }
+        else{
+        
+            $EndversionListRegion = $ReleaseNoteString.Where({$_ -match 'LIMITATIONS'})
+            $EndversionListIndex = $ReleaseNoteString.IndexOf($EndversionListRegion[0])
+        }
 
         $TextOfInterest = $ReleaseNoteString[$versionListIndex..$($EndversionListIndex-2)]
         $BuildIDRegex = '\b(?=.*[0-9])(?=.*[A-Z])([A-Z0-9]){8}\b'
@@ -470,8 +476,32 @@ Class Lenovo{
                     DeviceDescription = $elem.Substring(0,$match.Index).Trim()
                     VendorVersion     = $elem.Substring($match.Index+8 ).Trim()
                 }
+                
+            }else{
+                # Special case
+                $index = $elem.LastIndexOf('Inbox')
+                if($index -gt 1){
+                    $result += [PScustomobject]@{
+                        ReleaseID         = 'Inbox';
+                        DeviceDescription = $elem.Substring(0,$index).Trim()
+                        VendorVersion     = $elem.Substring($index+8 ).Trim()
+                    }
+                    
+                }
+
+                $index = $elem.LastIndexOf('N/A')
+                if($index -gt 1){
+                    $result += [PScustomobject]@{
+                        ReleaseID         = 'N/A';
+                        DeviceDescription = $elem.Substring(0,$index).Trim()
+                        VendorVersion     = $elem.Substring($index+8 ).Trim()
+                    }
+                
+                }
+            
             }
         }
+
 
         return $result
     
