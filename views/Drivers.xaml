@@ -23,7 +23,7 @@
 		
 
 
-			<StackPanel Margin="10" Orientation="Horizontal" > 
+			<StackPanel Margin="5" Orientation="Horizontal" > 
 					
 					<Label  Content="Operating System : " Width="120" Background="#DEDEDE"/>
 					<ComboBox x:Name="OSComboBox" Width="200"
