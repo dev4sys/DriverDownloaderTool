@@ -4,7 +4,7 @@
 
 	
 	<Grid>
-        <TextBlock Text="Settings View"
+        <TextBlock Text="Dev4sys Driver Downloader Tool"
                    FontSize="32"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />

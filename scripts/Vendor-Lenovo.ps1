@@ -242,7 +242,7 @@ Class Lenovo{
                     if($_){
                         [PSCustomObject]@{
 						    IsSelected=$false;
-                            ID=$_.Url.Split('/')[-1].Split('.')[0];
+                            ID=$_.Url.Split('/')[-1].ToUpper().Split('.')[0];
                             Name=$_.Name;
                             Size=$_.Size;
                             Type=$_.TypeString;
