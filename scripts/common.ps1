@@ -4,6 +4,15 @@
 
 
 
+# --------------------------------------------------------
+# Taken from https://github.com/feature23/StringSimilarity.NET
+# Looks like with JaroWinkler algorithm I get better result than 
+# Normalized Levenshtein
+# --------------------------------------------------------
+
+$JaroWinkler = [F23.StringSimilarity.JaroWinkler]::new()
+
+
 function Select-SimilarDriver(){
 
     [CmdletBinding()]
@@ -18,58 +27,39 @@ function Select-SimilarDriver(){
         [Object] $Data
     )
 
-    $Input = $Search
 
-    # Remove spaces from the search string
-    $search = $Search.Replace(' ','')
-    # Add wildcard characters before and after each character in the search string
-    $quickSearchFilter = '*'
-    $search.ToCharArray().ForEach({
-        $quickSearchFilter += $_ + '*'
-    })
+    $var= $null
 
-    $var= @()
-
+    # criteria to have decent result
+    $tempScore = 0.6
 
     foreach ($DriverFile in $Data) {
         
         if($DriverFile.Name){
             
             $string = $DriverFile.Name.Trim()
-            # Do a quick search using wildcards
-            if ($string -like $quickSearchFilter) {
-                # Get score of match
-                $score = Get-FuzzyMatchScore -Search $Search -String $string
-                $var += [PSCustomObject][Ordered] @{
+
+            # Get score of match
+            $score = $JaroWinkler.Similarity($string,$search)
+
+            if($score -gt $tempScore){
+                
+                $tempScore = $score
+                $var = [PSCustomObject] @{
                     Score = $score;
                     Search = $Input;
                     Result = $DriverFile
                 }
-
+                
             }
+
+
         }
     }
 
     return $var
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
