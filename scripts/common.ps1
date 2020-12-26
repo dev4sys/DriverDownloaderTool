@@ -42,7 +42,7 @@ function Select-SimilarDriver(){
             # Get score of match
             $score = $JaroWinkler.Similarity($string,$search)
 
-            if($score -gt $tempScore){
+            if($score -ge $tempScore){
                 
                 $tempScore = $score
                 $var = [PSCustomObject] @{

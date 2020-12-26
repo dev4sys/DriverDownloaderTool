@@ -22,61 +22,63 @@
 		
 			<StackPanel Margin="5,5,5,5" Orientation="Horizontal"   > 
 			
-			<!--
-				<StackPanel Margin="0,0,15,0" Width="250" Height="60" Background="#DEDEDE" HorizontalAlignment="Stretch"  Orientation="Horizontal">
-					<StackPanel  Background="#2196f3" Height="60" Width="60" >
-						<iconPacks:PackIconMaterial  Height="36" Width="36"  Margin="10,10,10,10"
-													Kind="PackageVariantClosed" Foreground="White"/>	
-					</StackPanel>
-					<StackPanel Width="190" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="15"    FontWeight="Bold" Foreground="#676767" FontSize="26"  ></TextBlock>
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="GROUPS" Foreground="#676767" FontSize="15"></TextBlock>
-					</StackPanel>
-				</StackPanel> 
-				
-				<StackPanel  Margin="0,0,15,0" Width="250" Height="60" Background="#DEDEDE" HorizontalAlignment="Stretch"  Orientation="Horizontal">
-					<StackPanel  Background="#79c879" Height="60" Width="60" >
-						<iconPacks:PackIconMaterial  Height="36" Width="36"  Margin="10,10,10,10"
-													Kind="ApplicationCog" Foreground="White"/>	
-					</StackPanel>
-					<StackPanel Width="190" Margin="0,0,0,0" HorizontalAlignment="Stretch" Orientation="Vertical">
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="24"    FontWeight="Bold" Foreground="#676767" FontSize="26"  ></TextBlock>
-						<TextBlock Margin="0,0,0,0" HorizontalAlignment="Center" Text="COMPUTER REGISTERED" Foreground="#676767" FontSize="15"></TextBlock>
-					</StackPanel>
-				</StackPanel>
-			-->	
-				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
+
+				<StackPanel Width="150" Height="40" Background="#DEDEDE" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
 			
-					<Button Width="60" x:Name="ViewSelectedBtn" BorderThickness="0" Margin="0,0,0,0" 
-							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
-						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
+
+					<Border BorderBrush="{DynamicResource MahApps.Brushes.Accent}" BorderThickness="1" >
+						<StackPanel Margin="0,0,0,0"  Orientation="Vertical" Width="108" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="VIEW" 
+								Foreground="{DynamicResource MahApps.Brushes.Accent}"  FontSize="12"></TextBlock>
+						</StackPanel>
+					</Border>
+					<Button Width="40" x:Name="ViewSelectedBtn" BorderThickness="0" Margin="0,0,0,0" 
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" >
+						<iconPacks:PackIconMaterial Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" 
 							Kind="FileEye" />
 					</Button>
 					
 				</StackPanel>
 				
 				
-				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
+				<StackPanel Width="150" Height="40" Background="#DEDEDE" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,5,5,0">
 			
-					<Button Width="60" x:Name="DonwloadBtn" BorderThickness="0" Margin="0,0,0,0" 
-							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
-						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
+
+					<Border BorderBrush="{DynamicResource MahApps.Brushes.Accent}" BorderThickness="1">
+						<StackPanel Margin="0,0,0,0"  Orientation="Vertical" Width="108" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="DOWNLOAD" 
+							Foreground="{DynamicResource MahApps.Brushes.Accent}"  FontSize="12"></TextBlock>
+						</StackPanel>
+					</Border>
+					<Button Width="40" x:Name="DownloadBtn" BorderThickness="0" Margin="0,0,0,0" IsEnabled="False"
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" >
+						<iconPacks:PackIconMaterial Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" 
 							Kind="CloudDownload" />
 					</Button>
 					
 				</StackPanel>
 				
-				<StackPanel Height="60" Width="60" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
+				<StackPanel Width="150" Height="40" Background="#DEDEDE" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,5,0">
 			
-					<Button Width="60" x:Name="ExtractBtn" BorderThickness="0" Margin="0,0,0,0" 
-							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" Background="#2196f3">
-						<iconPacks:PackIconMaterial Height="36" Width="36" HorizontalAlignment="Center" VerticalAlignment="Center" 
+
+					<Border BorderBrush="{DynamicResource MahApps.Brushes.Accent}" BorderThickness="1">
+						<StackPanel Margin="0,0,0,0"  Orientation="Vertical" Width="108" HorizontalAlignment="Center" VerticalAlignment="Center">
+							<TextBlock Margin="0,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="EXTRACT" 
+							Foreground="{DynamicResource MahApps.Brushes.Accent}"  FontSize="12"></TextBlock>
+						</StackPanel>
+					</Border>
+					<Button Width="40" x:Name="ExtractBtn" BorderThickness="0" Margin="0,0,0,0" IsEnabled="False"
+							Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand" >
+						<iconPacks:PackIconMaterial Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center" 
 							Kind="FolderZip" />
 					</Button>
 					
 				</StackPanel>
 				
-				
+				<Button x:Name="FolderProjectOpenBtn" Width="60" Height="40" Margin="5,5,0,0">
+					<iconPacks:PackIconMaterial HorizontalAlignment="Center" VerticalAlignment="Center" 
+						Kind="FolderOpenOutline" />
+				</Button>
 			
 			</StackPanel> 
 			
