@@ -19,25 +19,24 @@
 	
 	<Controls:MetroWindow.Flyouts>
 		<Controls:FlyoutsControl>
-			<Controls:Flyout x:Name="TopFlyout" Margin="50 0 50 0"
+			<Controls:Flyout x:Name="BottomFlyout" Margin="80 0 80 0"
 				CloseButtonVisibility="Collapsed"
 				Header="Top"
-				IsModal="True"
+				IsModal="False"
 				IsPinned="False"
 				Position="Bottom"
-				Theme="Light"
+				Theme="Accent"
 				TitleVisibility="Collapsed">
-				<Grid Height="150">
-					<TextBlock Margin="10"
-							   FontSize="22"
-							   Text="Flyout on the top..." />
-					<!-- <Grid VerticalAlignment="Bottom" Background="{DynamicResource MahApps.Brushes.Accent2}"> 
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
-					</Grid> -->
-				</Grid>
+				<Border BorderBrush="#FFFFFF" BorderThickness="1">
+					<Grid Height="120">
+						<StackPanel Orientation="Horizontal" Margin="10" >
+							<iconPacks:PackIconMaterial Kind="AlertCircle" Width="25" Height="25" Margin="10"/>
+							<TextBlock x:Name="FlyoutMsg" Margin="10"
+									   FontSize="22"
+									   Text="" />
+						</StackPanel>
+					</Grid>
+				</Border>
 			</Controls:Flyout>
 		</Controls:FlyoutsControl>
 	</Controls:MetroWindow.Flyouts>
