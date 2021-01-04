@@ -13,9 +13,12 @@
 				
 				
 				
+				<Label  Content="Choose your Provider" Width="Auto" 
+						HorizontalAlignment="Center" FontSize="18" 
+						Foreground="#FFFFFF"/>
 				
 				<Controls:FlipView x:Name="ProviderList"
-					  Height="150" Width="500"  Margin="0,0,0,50"
+					  Height="150" Width="500"  Margin="0,20,0,30"
 					  MouseHoverBorderEnabled= "False"
 					  IsBannerEnabled="False"
 					  CircularNavigation="True"
@@ -32,10 +35,21 @@
 						</Grid>	
 					</Controls:FlipView.Items>
 				</Controls:FlipView>
+						
+
+
+				<Button Width="150" Height="40" x:Name="LoadProviderBtn" HorizontalAlignment="Stretch" BorderThickness="0" Margin="0,30,0,0" 
+						Style="{DynamicResource MahApps.Styles.Button.Square.Accent}" Cursor="Hand"  >
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0" >
+							
+							<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Load" 
+								Foreground="#DEDEDE" FontSize="18" ></TextBlock>
+							
+						</StackPanel>
+				</Button>
 				
-				<Label  Content="Choose and Double Click on your Provider" Width="Auto" 
-						HorizontalAlignment="Center" FontSize="18" 
-						Foreground="#FFFFFF"/>
+
+						
 				
 			</StackPanel>
 		

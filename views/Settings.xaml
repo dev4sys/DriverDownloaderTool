@@ -3,12 +3,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 	
-	<Grid>
-        <TextBlock Text="Dev4sys Driver Downloader Tool"
-                   FontSize="32"
+	<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+		
+		<Image Margin="15" Width="100" Height="100" Source="..\img\dev4sys.png" />
+		
+		<TextBlock Text="Driver Downloader Tool"
+				   FontSize="32"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+        <TextBlock Text="Dev4Sys"
+                   FontSize="22"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
-    </Grid>
+    </StackPanel>
 
 
 </Grid>
