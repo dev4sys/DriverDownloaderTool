@@ -346,8 +346,10 @@ Class Dell
                 if($Itemgroup.Group.Count -ge 2){
                     $maximum = 0
                     foreach($vendorVer in $Itemgroup.Group){
-                        if($vendorVer.VendorVersion -gt $maximum){
-                            $maximum = $vendorVer.VendorVersion
+                        if($vendorVer.DellVersion -gt $maximum){
+                            #$maximum = $vendorVer.VendorVersion
+                            $maximum = $vendorVer.DellVersion
+                            
                             #Write-Host $maximum
                             $item = $vendorVer
                         }
